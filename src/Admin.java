@@ -2,8 +2,9 @@ import java.util.Scanner;
 
 public class Admin {
     Scanner input = new Scanner(System.in);
-    private String password = "44211857" ;
     private String userName = "mahya2004" ;
+    private String password = "44211857" ;
+
 
     public String getPassword() {
         return password;
@@ -21,10 +22,10 @@ public class Admin {
         this.userName = userName;
     }
 
-//    public Admin(String password, String userName) {
-//        this.password = password;
-//        this.userName = userName;
-//    }
+    public Admin(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 
     public Admin() {
     }
@@ -34,7 +35,7 @@ public class Admin {
         int command;
         command = input.nextInt();
 //        return command;
-        while (command != 5 && command != 0) {
+        while (command != 0) {
             switch (command) {
                 case 1:
                     System.out.println("Add");

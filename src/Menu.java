@@ -1,4 +1,3 @@
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -45,30 +44,30 @@ public class Menu {
     //   int i = 0;
     public void information(){
 //        Scanner input = new Scanner(System.in);
-        System.out.print("this is password >> \t");
+        System.out.print("this is username >> \t");
+        String userName = input.next();
+        System.out.print("this is password >>\t");
         String password = input.next();
-        System.out.print("this is user >>\t");
-        String user = input.next();
-        info[k++] = new Passenger(password, user);
-        System.out.println("*************************************");
-        for (int i = 0; i < k; i++) {
-            System.out.println("this is password  " + info[i].getPassword() );
-            System.out.println("this is user " + info[i].getUser());
-
-        }
+        info[k++] = new Passenger(userName, password);
+//        System.out.println("*************************************");
+//        for (int i = 0; i < k; i++) {
+//            System.out.println("this is password  " + info[i].getUserName() );
+//            System.out.println("this is user " + info[i].getPassword());
+//
+//        }
 
     }
     public void information2(){
-        System.out.print("\nthis is password >> \t");
+        System.out.print("\nthis is username >> \t");
+        String userName = input.next();
+        System.out.print("this is password >>\t");
         String password = input.next();
-        System.out.print("this is user >>\t");
-        String user = input.next();
 
-        if(Objects.equals(password, adminInfo.getPassword()) && Objects.equals(user, adminInfo.getUserName()))
+        if(Objects.equals(userName, adminInfo.getUserName()) && Objects.equals(password, adminInfo.getPassword()))
             adminInfo.adminMenu();
 
         for(int i = 0; i < k; i++)
-            if (Objects.equals(info[i].getPassword(), password) && Objects.equals(info[i].getUser(), user))
+            if (Objects.equals(info[i].getUserName(), userName) && Objects.equals(info[i].getPassword(), password))
                 data.passengerMenu();
 
     }

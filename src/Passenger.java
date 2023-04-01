@@ -3,10 +3,18 @@ import java.util.Scanner;
 public class Passenger {
     Scanner input = new Scanner(System.in);
 
+    private String userName;
     private String password;
-    private String user;
 
     private int value;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getPassword() {
         return password;
@@ -14,14 +22,6 @@ public class Passenger {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public int getValue() {
@@ -32,9 +32,9 @@ public class Passenger {
         this.value = value;
     }
 
-    public Passenger(String password, String user) {
+    public Passenger(String userName, String password) {
+        this.userName = userName;
         this.password = password;
-        this.user = user;
     }
 
     public Passenger() {
@@ -54,7 +54,7 @@ public class Passenger {
     public void passengerMenu() {
 
         int command = printPassengerMenu();
-        while (command != 7 && command != 0) {
+        while (command != 0) {
             switch (command) {
                 case 1:
                     System.out.println("----------------------------------------------------");
