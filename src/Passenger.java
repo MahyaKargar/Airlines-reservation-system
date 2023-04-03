@@ -56,32 +56,32 @@ public class Passenger {
         int command = printPassengerMenu();
         while (command != 0) {
             switch (command) {
-                case 1:
+                case 1 -> {
                     System.out.println("----------------------------------------------------");
                     System.out.println("\n\t <1> Change password >> \n");
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("----------------------------------------------------");
                     System.out.println("\n\t <2> Search flights tickets >> \n");
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println("----------------------------------------------------");
                     System.out.println("\n\t <3> Booking tickets >> \n");
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     System.out.println("----------------------------------------------------");
                     System.out.println("\n\t <4> Ticket cancellation >> \n");
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     System.out.println("----------------------------------------------------");
                     System.out.println("\n\t <5> Booked tickets >>\n ");
-                    break;
-                case 6:
+                }
+                case 6 -> {
                     System.out.println("----------------------------------------------------");
                     System.out.println("\n\t <6> Add charge >> \n");
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
             command = printPassengerMenu();
         }

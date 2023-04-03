@@ -23,17 +23,16 @@ public class Menu {
         while (command != 3) {
 
             switch (command) {
-                case 1:
+                case 1 -> {
                     System.out.println("\t<< sing in >>");
                     information2();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("\t << sing up >>");
                     information();
-                    break;
-
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
 
             command = printStartMenu();
