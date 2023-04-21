@@ -1,7 +1,7 @@
 
 public class Passenger {
 
-    private String userName;
+    private final String userName;
     private String password;
     private int credit ;
 

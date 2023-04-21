@@ -5,7 +5,7 @@ public class Flight {
     private String date;
     private String time;
     private String price;
-    private String seats ;
+    private String seats;
 
     public String getFlightId() {
         return flightId;

@@ -3,70 +3,91 @@ import java.util.Scanner;
 
 public class Menu {
     Scanner input = new Scanner(System.in);
-    int count;
+    int countUser;
     int k = 0;
-//    int indexUser;
     public int printStartMenu(){
-        System.out.println("\t MENU OPTIONS \n \t1-sing in \t 2-sing up\t 3- Exit");
-        int command;
-        command = input.nextInt();
-        return command;
+
+        System.out.println("------------------------------------<< MENU OPTIONS >>---------------------------------------------");
+        System.out.println("\n\t\t\t\t<< 1-Sing in >> \t\t << 2-Sing up >>\t\t << 3-Exit >>");
+        System.out.print(">>\t");
+
+        return input.nextInt();
     }
 
     public void mainMenu(Database database){
-        int command = printStartMenu();
 
+        int command = printStartMenu();
         while (command != 3) {
 
             switch (command) {
+
                 case 1 -> {
-                    System.out.println("\t<< sing in >>");
+                    System.out.println("--------------------------------------<< Sing in >>-------------------------------------------------");
                     singIn(database);
                 }
                 case 2 -> {
-                    System.out.println("\t << sing up >>");
-                    count++;
+                    System.out.println("--------------------------------------<< Sing up >>-------------------------------------------------");
+                    countUser++;
                     singUp(database);
                 }
-                default -> {
-                }
+                default ->
+                    System.out.println("<< Please try again >>");
             }
-
             command = printStartMenu();
 
         }
 
     }
-    public void singUp(Database database){
+    int temp = 0;
+    public void singIn(Database database){
+
+        if (temp == 0)
+            database.flights.defaultFlights();
+
+        temp = 1;
+
         System.out.print("This is username >>\t");
         String userName = input.next();
+
+        System.out.print("This is password >>\t");
+        String password = input.next();
+
+        boolean bool = false;
+
+        if(Objects.equals(userName, database.admins.adminsInfo[0].getUserName()) && Objects.equals(password, database.admins.adminsInfo[0].getPassword())) {
+            database.adminMenu.adminMenu(database);
+            bool = true;
+        }
+
+        for(int i = 0; i < k; i++)
+            if (Objects.equals(database.passengers.passengersInfo[i].getUserName(), userName) && Objects.equals(database.passengers.passengersInfo[i].getPassword(), password)) {
+                database.passengersMenu.passengerMenu(i, database);
+                bool = true;
+            }
+
+        if (!bool)
+            System.out.println("\n<< No account found with this information. >>");
+
+
+    }
+    public void singUp(Database database){
+
+        System.out.print("This is username >>\t");
+        String userName = input.next();
+
         boolean bool = checkUsername(userName, database);
         while (!bool){
-            System.out.println("This username had used. Please enter new username");
+            System.out.print("\n<< This username had used. Please enter new username >>\t");
             userName = input.next();
             bool = checkUsername(userName, database);
         }
+
         System.out.print("This is password >>\t");
         String password = input.next();
+
         database.passengers.passengersInfo[k++] = new Passenger(userName, password);
-    }
-    int temp = 0;
-    public void singIn(Database database){
-        if (temp == 0)
-            database.flights.defaultFlights();
-        temp = 1;
-        System.out.print("\nthis is username >> \t");
-        String userName = input.next();
 
-        System.out.print("this is password >>\t");
-        String password = input.next();
-
-        if(Objects.equals(userName, database.admins.adminsInfo[0].getUserName()) && Objects.equals(password, database.admins.adminsInfo[0].getPassword()))
-            database.adminMenu.adminMenu(database);
-
-        for(int i = 0; i < k; i++)
-            if (Objects.equals(database.passengers.passengersInfo[i].getUserName(), userName) && Objects.equals(database.passengers.passengersInfo[i].getPassword(), password))
-                database.passengersMenu.passengerMenu(i, database);
+        System.out.println("\n<< Your information has been successfully registered. >>\n");
     }
 
     public boolean checkUsername(String username, Database database){
@@ -77,6 +98,5 @@ public class Menu {
         }
         return true;
     }
-
 }
 
