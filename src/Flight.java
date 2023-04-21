@@ -4,8 +4,8 @@ public class Flight {
     private String destination;
     private String date;
     private String time;
-    private int price;
-    private int seats ;
+    private String price;
+    private String seats ;
 
     public String getFlightId() {
         return flightId;
@@ -47,23 +47,23 @@ public class Flight {
         this.time = time;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public int getSeats() {
+    public String getSeats() {
         return seats;
     }
 
-    public void setSeats(int seats) {
+    public void setSeats(String seats) {
         this.seats = seats;
     }
 
-    public Flight(String flightId, String origin, String destination, String date, String time, int price, int seats) {
+    public Flight(String flightId, String origin, String destination, String date, String time, String price, String seats) {
         this.flightId = flightId;
         this.origin = origin;
         this.destination = destination;
