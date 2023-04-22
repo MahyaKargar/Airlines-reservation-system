@@ -1,7 +1,7 @@
 
 public class Admin {
-    private String userName;
-    private String password;
+    private final String userName;
+    private final String password;
 
     public String getPassword() {
         return password;
@@ -14,8 +14,5 @@ public class Admin {
     public Admin(String userName, String password) {
         this.userName = userName;
         this.password = password;
-    }
-
-    public Admin() {
     }
 }

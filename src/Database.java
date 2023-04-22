@@ -12,6 +12,12 @@ public class Database {
     Admins admins = new Admins();
     Scanner input = new Scanner(System.in);
 
+    /**
+     * Checking the written state of the entries >>
+     * @param input flights' information
+     * @param command get from user to check is number or letter.
+     * @return true if the format was correct otherwise false
+     */
     public boolean checkInput(String input, int command) {
         boolean bool;
         char[] newInput = input.toCharArray();
@@ -52,12 +58,17 @@ public class Database {
         return data;
     }
 
-    public boolean checkDate(String date) {
+    /**
+     * check the valid format of date >>
+     * @param data the date of flight.
+     * @return true if the format was correct otherwise false
+     */
+    public boolean checkDate(String data) {
 
-        Matcher matcher = Pattern.compile("\\d{4}/\\d{2}/\\d{2}").matcher(date);
+        Matcher matcher = Pattern.compile("\\d{4}/\\d{2}/\\d{2}").matcher(data);
 
         if (matcher.find()) {
-            String[] digits = date.split("/");
+            String[] digits = data.split("/");
             int[] convertedDigits = new int[digits.length];
 
             for (int i = 0; i < digits.length; i++)
@@ -76,10 +87,16 @@ public class Database {
 
     }
 
-    public boolean checkTime(String time) {
-        Matcher matcher = Pattern.compile("\\d{2}:\\d{2}").matcher(time);
+    /**
+     * check the valid format of time >>
+     * @param data the time of flight.
+     * @return true if the format was correct otherwise false.
+     */
+
+    public boolean checkTime(String data) {
+        Matcher matcher = Pattern.compile("\\d{2}:\\d{2}").matcher(data);
         if (matcher.find()) {
-            String[] digits = time.split(":");
+            String[] digits = data.split(":");
             int[] convertedDigits = new int[digits.length];
 
             for (int i = 0; i < digits.length; i++)

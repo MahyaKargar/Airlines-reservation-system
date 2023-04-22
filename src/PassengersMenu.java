@@ -5,6 +5,10 @@ public class PassengersMenu {
     Scanner input = new Scanner(System.in);
     String[] fields = new String[3];
 
+    /**
+     * print the passengers' menu >>
+     * @return command that has chosen by passenger to do his activity.
+     */
     public String printPassengerMenu() {
 
         System.out.println("\n----------------------------------<< PASSENGER MENU OPTIONS >>------------------------------------------");
@@ -15,6 +19,17 @@ public class PassengersMenu {
         return input.next();
     }
 
+    /**
+     * get the command from the passengers' menu >>
+     *  / Change password by entering command : 1
+     *  / Search flight tickets by entering command : 2
+     *  / Booking tickets by entering command : 3
+     *  / Ticket cancellation by entering command : 4
+     *  / Booked tickets by entering command : 5
+     *  / Add charge by entering command : 6
+     * @param indexUser the cell number of passengers' array.
+     * @param database the class that includes information and checking the format of data.
+     */
     public void passengerMenu(int indexUser, Database database) {
 
         String command = printPassengerMenu();
@@ -53,6 +68,13 @@ public class PassengersMenu {
         }
     }
 
+    /**
+     * change password >>
+     *passenger enter the previous password then by entering the new password.
+     * @param index the cell number of passengers' array.
+     * @param database the class that includes information and checking the format of data.
+     */
+
     public void changePasswordInfo(int index, Database database) {
 
         System.out.print("\n<< Please enter old password. >>\t");
@@ -89,6 +111,10 @@ public class PassengersMenu {
 
     }
 
+    /**
+     * to search flights, get the flights' information from the passenger >>
+     * @param database  the class that includes information.
+     */
     public void searchFlightsInfo(Database database) {
 
         System.out.print("<< Please enter origin >>\t");
@@ -103,12 +129,18 @@ public class PassengersMenu {
         database.passengers.searchFlights(fields, database);
     }
 
+    /**
+     * to booking ticket, get the flights' information from the passenger >>
+     * @param database  the class that includes information.
+     * @param indexUser  the cell number of passengers' array.
+     */
+
     public void bookingTicketInfo(Database database, int indexUser) {
 
         System.out.println("<< Please enter flightId >>\n");
         String flightId = input.next();
 
-        for (int i = 0; i < database.flights.countFlights + 3; i++) {
+        for (int i = 0; i < database.flights.countFlights + 19; i++) {
             if (Objects.equals(flightId, database.flights.flightsInfo[i].getFlightId())) {
                 if (database.passengers.passengersInfo[indexUser].getCredit() < Integer.parseInt(database.flights.flightsInfo[i].getPrice())) {
                     System.out.println("-->> Your charge is not enough. -->>");
@@ -132,50 +164,77 @@ public class PassengersMenu {
         }
     }
 
+    /**
+     * to cancel ticket, get the flights' information from the passenger >>
+     * @param database the class that includes information.
+     * @param indexUser the cell number of passengers' array.
+     */
+
     public void cancellationInfo(Database database, int indexUser) {
         System.out.print("<< Please enter your ticketId >>\t");
         String id = input.next();
 
         int index = database.tickets.searchTicketId(Integer.parseInt(id));
+        if (index == -1) {
+            System.out.println("There isn't any flights with this ticketId ") ;
 
-        String flightId = database.tickets.ticketsInfo[index].getFlight().getFlightId();
-
-        for (int i = 0; i < database.flights.countFlights; i++) {
-            if (Objects.equals(database.flights.flightsInfo[i].getFlightId(), flightId)) {
-                database.flights.flightsInfo[i].setSeats(String.valueOf(Integer.parseInt(database.flights.flightsInfo[i].getSeats()) + 1));
-                database.passengers.passengersInfo[indexUser].setCredit(database.passengers.passengersInfo[indexUser].getCredit() + Integer.parseInt(database.flights.flightsInfo[i].getPrice()));
-                break;
-            }
         }
+        else {
 
-        database.tickets.removeTicket(index);
+            String flightId = database.tickets.ticketsInfo[index].getFlight().getFlightId();
+
+            for (int i = 0; i < database.flights.countFlights + 19; i++) {
+                if (Objects.equals(database.flights.flightsInfo[i].getFlightId(), flightId)) {
+                    database.flights.flightsInfo[i].setSeats(String.valueOf(Integer.parseInt(database.flights.flightsInfo[i].getSeats()) + 1));
+                    database.passengers.passengersInfo[indexUser].setCredit(database.passengers.passengersInfo[indexUser].getCredit() + Integer.parseInt(database.flights.flightsInfo[i].getPrice()));
+                    break;
+                }
+            }
+
+            database.tickets.removeTicket(index);
+        }
     }
 
+    /**
+     * to add charge , get the flights' information from the passenger >>
+     * @param index  the cell number of passengers' array.
+     * @param database the class that includes information.
+     */
     public void addChargeInfo(int index, Database database) {
 
         System.out.print("\n<< Your charge is >>\t|" + database.passengers.passengersInfo[index].getCredit() + "|");
         System.out.print("\n<< How much do you want to add to your credit? >>\t");
 
         String value = input.next();
-//        boolean bool = false;
-//        database.adminMenu.checkInput(value);
-//        while (!bool){
-//            System.out.print("\nHow much do you want to add to your credit? \t");
-//             value = input.next();
-//            bool = database.adminMenu.checkInput(value);
-//        }
+        boolean bool = false;
+
+        bool = database.checkInput(value, 1);
+
+        while (!bool){
+            System.out.println("============================================================================================");
+            System.out.print("<< Please try again >>\t");
+
+            value = input.next();
+
+            bool = database.checkInput(value, 1);
+        }
 
         database.passengers.addCharge(index, Integer.parseInt(value));
         System.out.println("\n-->> Currently, your credit is -->>\t|" + database.passengers.passengersInfo[index].getCredit() + "|");
 
     }
 
+    /**
+     * Show the tickets booked by the passenger >>
+     * @param database the class that includes information.
+     * @param indexUser the cell number of passengers' array.
+     */
     public void bookedTickets(Database database, int indexUser) {
         String userName;
         userName = database.passengers.passengersInfo[indexUser].getUserName();
 
-        System.out.print("\t________________________________________________________________________________");
-        System.out.print("\n\t|  FlightId  |  origin  |  Destination  |  Date  |  Time  |  Price  |  seats  |  ticketId  |");
+        System.out.print("\t________________________________________________________________________________________________________________________________________________________________\n\t");
+        System.out.printf("|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|" , "FlightId", "origin" , "Destination" , "Date" , "Time" , "Prise" , "Seats", "ticketId" );
 
         int count = 0;
 
@@ -185,15 +244,16 @@ public class PassengersMenu {
             } else {
                 if (Objects.equals(userName, database.tickets.ticketsInfo[i].getPassenger().getUserName())) {
 
-                    System.out.print("\n\t________________________________________________________________________________");
-                    System.out.print("\n\t|\t" + database.tickets.ticketsInfo[i].getFlight().getFlightId() +
-                            "\t|\t" + database.tickets.ticketsInfo[i].getFlight().getOrigin() +
-                            "\t|\t" + database.tickets.ticketsInfo[i].getFlight().getDestination() +
-                            "\t|\t" + database.tickets.ticketsInfo[i].getFlight().getDate() +
-                            "\t|\t" + database.tickets.ticketsInfo[i].getFlight().getTime() +
-                            "\t|\t" + database.tickets.ticketsInfo[i].getFlight().getPrice() +
-                            "\t|\t" + database.tickets.ticketsInfo[i].getFlight().getSeats() +
-                            "\t|\t" + database.tickets.ticketsInfo[i].getTicketId() + "\t|");
+                    System.out.print("\n\t________________________________________________________________________________________________________________________________________________________________\n\t");
+                    System.out.printf("|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s",
+                            database.tickets.ticketsInfo[i].getFlight().getFlightId(),
+                            database.tickets.ticketsInfo[i].getFlight().getOrigin(),
+                            database.tickets.ticketsInfo[i].getFlight().getDestination(),
+                            database.tickets.ticketsInfo[i].getFlight().getDate(),
+                            database.tickets.ticketsInfo[i].getFlight().getTime(),
+                            database.tickets.ticketsInfo[i].getFlight().getPrice(),
+                            database.tickets.ticketsInfo[i].getFlight().getSeats(),
+                            database.tickets.ticketsInfo[i].getTicketId());
 
                     count++;
 

@@ -2,6 +2,11 @@ import java.util.Objects;
 import java.util.Scanner;
 public class AdminMenu {
     Scanner input = new Scanner(System.in);
+
+    /**
+     * print the menu of admin >>
+     * @return command that has chosen by admin to do his activity.
+     */
     public String printAdminMenu(){
 
         System.out.println("----------------------------------<< ADMIN MENU OPTIONS >>------------------------------------------");
@@ -10,6 +15,15 @@ public class AdminMenu {
 
         return input.next();
     }
+
+    /**
+     * get the command from the admin menu >>
+     * / add flights by entering command : 1
+     * / update flights by entering command : 2
+     * / remove Flights by entering command : 3
+     * / Flight schedules by entering command : 4
+     * @param database  the class that includes information.
+     */
     public void adminMenu(Database database){
 
         String command = printAdminMenu();
@@ -39,6 +53,11 @@ public class AdminMenu {
            command = printAdminMenu();
         }
     }
+
+    /**
+     *to add each flight, get the flight's information from the admin and checking the format of data >>
+     * @param database the class that includes information and checking the format of data.
+     */
     public void addInfo(Database database) {
 
         System.out.print("<< How many flights do you one to add? >>\t");
@@ -141,6 +160,11 @@ public class AdminMenu {
             System.out.println("\n<< The desired flight was registered successfully. >>\n");
         }
     }
+
+    /**
+     *to update each flight, get the flight's information from the admin and checking the format of data >>
+     * @param database the class that includes information and checking the format of data.
+     */
     public void updateInfo(Database database){
         boolean bool ;
 
@@ -177,7 +201,7 @@ public class AdminMenu {
                 continue;
             }
 
-            for (int i = 0; i < database.flights.countFlights + 3; i++) {
+            for (int i = 0; i < database.flights.countFlights + 19; i++) {
 
                 if (Objects.equals(database.flights.flightsInfo[i].getFlightId(), flightId)) {
 
@@ -199,12 +223,23 @@ public class AdminMenu {
                             data = input.next();
 
                             bool = checkFlightId(data, database);
+                            if (!bool){
+                                if (Objects.equals(flightId, data))
+                                    bool = true;
+
+                            }
                             while (!bool){
                                 System.out.println("============================================================================================");
                                 System.out.print("<< Please try again >>\t");
-//                                System.out.print("\nPlease enter new flightId: \t");
+
                                 data = input.next();
+
                                 bool = checkFlightId(data, database);
+                                if (!bool){
+                                    if (Objects.equals(flightId, data))
+                                        bool = true;
+
+                                }
                             }
 
                             database.flights.updateFlights(i,number,data);
@@ -309,7 +344,10 @@ public class AdminMenu {
         }
     }
 
-
+    /**
+     * to remove each flight, get the flight's information from the admin  >>
+     * @param database the class that includes information and checking the format of data.
+     */
     public void removeInfo(Database database){
 
         System.out.print("<< How many flights do you one to remove? >>\t");
@@ -338,7 +376,7 @@ public class AdminMenu {
 
             }
 
-            for (int j = 0; j < 3 + database.flights.countFlights; j++) {
+            for (int j = 0; j < 19 + database.flights.countFlights; j++) {
                 if (Objects.equals(database.flights.flightsInfo[j].getFlightId(), flightId)) {
                     database.flights.removeFlights(j);
                     break;
@@ -347,29 +385,41 @@ public class AdminMenu {
         }
     }
 
+    /**
+     *show flights for admin >>
+     * @param database the class that includes information and checking the format of data.
+     */
+
     public void flightSchedule(Database database) {
 
-        System.out.print("\t________________________________________________________________________________");
-        System.out.print("\n\t|\t\tFlightId\t\t|\t\torigin\t\t|\t\tDestination\t\t|\t\tDate\t\t|\t\tTime\t\t|\t\tPrice\t\t|\t\tseats\t\t|");
-        for (int i = 0; i < 3 + database.flights.countFlights; i++) {
-            System.out.print("\n\t________________________________________________________________________________");
-            System.out.print("\n\t|\t\t" +
-                    database.flights.flightsInfo[i].getFlightId() + "\t\t|\t\t" +
-                    database.flights.flightsInfo[i].getOrigin() + "\t\t|\t\t" +
-                    database.flights.flightsInfo[i].getDestination() + "\t\t|\t\t" +
-                    database.flights.flightsInfo[i].getDate() + "\t\t|\t\t" +
-                    database.flights.flightsInfo[i].getTime() + "\t\t|\t\t" +
-                    database.flights.flightsInfo[i].getPrice() + "\t\t|\t\t" +
-                    database.flights.flightsInfo[i].getSeats() + "\t\t|");
+        System.out.print("\t____________________________________________________________________________________________________________________________________________\n\t");
+        System.out.printf("|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|" , "FlightId", "origin" , "Destination" , "Date" , "Time" , "Prise" , "Seats" );
+        for (int i = 0; i < 19 + database.flights.countFlights; i++) {
+            System.out.print("\n\t____________________________________________________________________________________________________________________________________________\n\t");
+            System.out.printf("|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|\t%-15s|" ,
+                    database.flights.flightsInfo[i].getFlightId(),
+                    database.flights.flightsInfo[i].getOrigin(),
+                    database.flights.flightsInfo[i].getDestination(),
+                    database.flights.flightsInfo[i].getDate(),
+                    database.flights.flightsInfo[i].getTime(),
+                    database.flights.flightsInfo[i].getPrice(),
+                    database.flights.flightsInfo[i].getSeats());
 
         }
         System.out.println();
     }
-    public boolean checkFlightId(String flightId, Database database){
 
-        for (int i = 0; i < database.flights.countFlights + 3; i++) {
+    /**
+     * move on index of flight and check this flightId exist >>
+     * @param data the flightId
+     * @param database the class that includes information and checking the format of data.
+     * @return true if there isn't any flights with this flightId otherwise false.
+     */
+    public boolean checkFlightId(String data, Database database){
+
+        for (int i = 0; i < database.flights.countFlights + 19; i++) {
             if (database.flights.flightsInfo[i] != null) {
-                if (Objects.equals(flightId, database.flights.flightsInfo[i].getFlightId()))
+                if (Objects.equals(data, database.flights.flightsInfo[i].getFlightId()))
                     return false;
             }
         }
